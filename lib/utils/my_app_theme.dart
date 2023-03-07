@@ -11,8 +11,8 @@ class DeviateTheme {
     'artist2': AssetImage('images/artist2.png'),
     'artist3': AssetImage('images/artist3.png'),
     'artist4': AssetImage('images/artist4.png'),
-    'artist5': AssetImage('images/artist5.png'),
     'artist6': AssetImage('images/artist6.png'),
+    'featureCard': AssetImage('images/featurecard.png'),
     'artist7': AssetImage('images/artist7.png'),
     'playerArtist': AssetImage('images/playerArtist.png'),
   };
@@ -48,7 +48,7 @@ class DeviateTheme {
     displaySmall: GoogleFonts.openSans(
       textStyle: const TextStyle(
         fontWeight: FontWeight.bold,
-        color: primaryColor,
+        color: Colors.white,
         fontSize: 20.0,
         letterSpacing: 0,
         height: 1.2,
@@ -88,7 +88,6 @@ class DeviateTheme {
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     textTheme: textTheme,
     appBarTheme: const AppBarTheme(
-      color: primaryColor,
       elevation: 0,
       iconTheme: IconThemeData(
         color: Colors.white,

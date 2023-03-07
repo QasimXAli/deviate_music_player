@@ -1,3 +1,4 @@
+import 'package:deviate_music_player/test.dart';
 import 'package:deviate_music_player/utils/my_app_theme.dart';
 import 'package:deviate_music_player/views/add_artist_screen.dart';
 import 'package:deviate_music_player/views/artist_screen.dart';
@@ -21,10 +22,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),
+        '/test': (context) => const TestScreen(),
         '/artistScreen': (context) => const ArtistScreen(),
         '/nowPlaying': (context) => const NowPlaying(),
-        '/profileScreen': (context) => const ProfileScreen(),
-        '/addArtist' :(context) => const AddArtistScreen(),
+        '/profileScreen': (context) => ProfileScreen(),
+        '/addArtist': (context) => const AddArtistScreen(),
       },
     );
   }
