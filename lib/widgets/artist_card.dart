@@ -18,13 +18,9 @@ class ArtistCard extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Container(
-            child: FittedBox(
-              child: Image(
-                image: DeviateTheme.images[artistImage]!,
-                fit: BoxFit.fill,
-              ),
-            ),
+          child: Image(
+            image: DeviateTheme.images[artistImage]!,
+            fit: BoxFit.fill,
           ),
         ),
         const SizedBox(

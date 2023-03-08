@@ -3,9 +3,10 @@ import 'package:deviate_music_player/utils/my_app_theme.dart';
 import 'package:deviate_music_player/widgets/artist_card.dart';
 import 'package:deviate_music_player/widgets/feature_card.dart';
 import 'package:flutter/material.dart';
+import 'package:outline_search_bar/outline_search_bar.dart';
 
-class HomeTab extends StatelessWidget {
-  HomeTab({super.key});
+class SearchTab extends StatelessWidget {
+  SearchTab({super.key});
 
   final List<Widget> artistList = [
     const ArtistCard(
@@ -41,6 +42,10 @@ class HomeTab extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
+            searchBox(),
+            const SizedBox(
+              height: 10,
+            ),
             CarouselSlider(
               options: CarouselOptions(
                 viewportFraction: 0.9,
@@ -51,7 +56,7 @@ class HomeTab extends StatelessWidget {
               items: [1, 2, 3, 4, 5].map((i) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return FeatureCard();
+                    return const FeatureCard();
                   },
                 );
               }).toList(),
@@ -178,4 +183,22 @@ class HomeTab extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget searchBox() {
+  return OutlineSearchBar(
+    backgroundColor: DeviateTheme.foregroundColor,
+    elevation: 5,
+    searchButtonPosition: SearchButtonPosition.trailing,
+    searchButtonIconColor: Colors.white,
+    hintText: 'Search',
+    textPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+    hintStyle: TextStyle(
+      color: Colors.grey[400],
+    ),
+    borderColor: DeviateTheme.primaryColor,
+    borderRadius: const BorderRadius.all(
+      Radius.circular(30),
+    ),
+  );
 }

@@ -52,19 +52,22 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 30,
+              top: 45,
               child: CircleAvatar(
-                  radius: 70,
+                  radius: 75,
                   backgroundImage: DeviateTheme.images['playerArtist']!),
             ),
             Positioned(
-              top: 180,
+              top: 200,
               child: Text(
                 'Olivia Rodrigo',
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
           ],
+        ),
+        const SizedBox(
+          height: 10,
         ),
         Padding(
           padding: const EdgeInsets.all(15.0),
