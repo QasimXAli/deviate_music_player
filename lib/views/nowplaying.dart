@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:share_plus/share_plus.dart';
+
 class NowPlaying extends StatefulWidget {
   const NowPlaying({super.key});
 
@@ -26,13 +29,15 @@ class _NowPlayingState extends State<NowPlaying>
     super.dispose();
   }
 
+  bool isEnabled = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/nowplayingbg.jpeg'),
+            image: const AssetImage('images/nowplayingbg.jpeg'),
             colorFilter: ColorFilter.mode(
                 Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
                 BlendMode.srcOver),
@@ -42,22 +47,25 @@ class _NowPlayingState extends State<NowPlaying>
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            leading: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: DeviateTheme.scaffoldBackgroundColor),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(Icons.arrow_back_outlined),
-                  onPressed: () {},
-                ),
-              ),
-            ),
+            // leading: Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(50),
+            //         color: DeviateTheme.scaffoldBackgroundColor),
+            //     child: IconButton(
+            //       padding: EdgeInsets.zero,
+            //       icon: const Icon(Icons.arrow_back_outlined),
+            //       onPressed: () {},
+            //     ),
+            //   ),
+            // ),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Share.share('check out my website https://example.com',
+                      subject: 'Look what I made!');
+                },
                 icon: const Icon(Icons.share),
               ),
               IconButton(
@@ -108,7 +116,7 @@ class _NowPlayingState extends State<NowPlaying>
                         color: Colors.white.withOpacity(0.8),
                       ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Column(
                   children: [
                     SizedBox(
@@ -126,9 +134,7 @@ class _NowPlayingState extends State<NowPlaying>
                         progress: const Duration(milliseconds: 1000),
                         buffered: const Duration(milliseconds: 2000),
                         total: const Duration(milliseconds: 5000),
-                        onSeek: (duration) {
-                          print('User selected a new time: $duration');
-                        },
+                        onSeek: (duration) {},
                       ),
                     ),
                     Padding(
@@ -148,16 +154,39 @@ class _NowPlayingState extends State<NowPlaying>
                               image: DeviateTheme.icons['back']!,
                             ),
                           ),
-                          IconButton(
-                            iconSize: 70,
-                            onPressed: () {},
-                            icon: SvgPicture.asset(
-                              'images/icons/play.svg',
-                            ),
-                            // icon: Image(
-                            //   image: DeviateTheme.icons['play']!,
-                            // ),
-                          ),
+                          isEnabled
+                              ? IconButton(
+                                  iconSize: 70,
+                                  onPressed: () {
+                                    setState(() {
+                                      isEnabled = !isEnabled;
+                                      _controller.repeat();
+                                    });
+                                  },
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.solidCirclePlay,
+                                    color: DeviateTheme.primaryColor,
+                                  ),
+                                )
+                              : IconButton(
+                                  iconSize: 70,
+                                  onPressed: () {
+                                    setState(() {
+                                      isEnabled = !isEnabled;
+                                      _controller.reset();
+                                    });
+                                  },
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.solidCirclePause,
+                                    color: DeviateTheme.primaryColor,
+                                  ),
+                                  // icon: SvgPicture.asset(
+                                  //   'images/icons/play.svg',
+                                  // ),
+                                  // icon: Image(
+                                  //   image: DeviateTheme.icons['play']!,
+                                  // ),
+                                ),
                           IconButton(
                             onPressed: () {},
                             icon: Image(
@@ -175,7 +204,7 @@ class _NowPlayingState extends State<NowPlaying>
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 )
               ],

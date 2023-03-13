@@ -10,27 +10,27 @@ class ProfileScreen extends StatelessWidget {
   final List<Widget> artistList = [
     const ArtistCard(
         artistImage: 'artist1',
-        artistName: 'Urgent Siege',
+        artistName: 'The Weekend',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist2',
-        artistName: 'Urgent Siege',
+        artistName: 'Taylor Swift',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist3',
-        artistName: 'Urgent Siege',
+        artistName: 'The Chainsmokers',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist4',
-        artistName: 'Urgent Siege',
+        artistName: 'Charlie Puth',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist7',
-        artistName: 'Urgent Siege',
+        artistName: 'Alec Benjamin',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist6',
-        artistName: 'Urgent Siege',
+        artistName: 'Rihanna',
         albumName: 'Damned Anthem')
   ];
 
@@ -42,23 +42,35 @@ class ProfileScreen extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              height: 230,
-              width: double.infinity,
+              height: 250,
               decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.elliptical(135, 135),
+                gradient: LinearGradient(
+                    colors: [DeviateTheme.foregroundColor, Colors.transparent],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Container(
+                height: 230,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.elliptical(135, 135),
+                  ),
+                  color: DeviateTheme.foregroundColor,
                 ),
-                color: DeviateTheme.foregroundColor,
               ),
             ),
             Positioned(
               top: 45,
               child: CircleAvatar(
-                  radius: 75,
+                  radius: 80,
                   backgroundImage: DeviateTheme.images['playerArtist']!),
             ),
             Positioned(
-              top: 200,
+              top: 220,
               child: Text(
                 'Olivia Rodrigo',
                 style: Theme.of(context).textTheme.displayMedium,

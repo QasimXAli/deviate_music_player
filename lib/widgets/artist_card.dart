@@ -14,34 +14,39 @@ class ArtistCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Image(
-            image: DeviateTheme.images[artistImage]!,
-            fit: BoxFit.fill,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/artistScreen', arguments: artistName);
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Image(
+              image: DeviateTheme.images[artistImage]!,
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 7,
-        ),
-        Text(
-          artistName,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Colors.white,
-              ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          albumName,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: Colors.white.withOpacity(0.5),
-              ),
-        ),
-      ],
+          const SizedBox(
+            height: 7,
+          ),
+          Text(
+            artistName,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Colors.white,
+                ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            albumName,
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: Colors.white.withOpacity(0.5),
+                ),
+          ),
+        ],
+      ),
     );
   }
 }

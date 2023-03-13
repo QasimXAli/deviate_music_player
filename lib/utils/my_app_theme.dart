@@ -13,6 +13,7 @@ class DeviateTheme {
     'artist4': AssetImage('images/artist4.png'),
     'artist6': AssetImage('images/artist6.png'),
     'featureCard': AssetImage('images/featurecard.png'),
+    'artistScreenimg': AssetImage('images/artistscreenimg.png'),
     'artist7': AssetImage('images/artist7.png'),
     'playerArtist': AssetImage('images/playerArtist.png'),
   };
@@ -87,6 +88,7 @@ class DeviateTheme {
     primaryColor: primaryColor,
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     textTheme: textTheme,
+    brightness: Brightness.dark,
     appBarTheme: const AppBarTheme(
       elevation: 0,
       iconTheme: IconThemeData(

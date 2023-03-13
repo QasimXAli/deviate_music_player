@@ -365,6 +365,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliver_header_delegate:
+    dependency: "direct main"
+    description:
+      name: sliver_header_delegate
+      sha256: d71a6a9003256651d6a63280cec2d7efe18bfe675b80e9da5dd61e419b066d81
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
+  sliver_tools:
+    dependency: "direct main"
+    description:
+      name: sliver_tools
+      sha256: bfa69411ebb203cc1a115b1e8bc7935b893eb381fdcf8d453b40c0d4e1db3247
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.9"
   source_span:
     dependency: transitive
     description:

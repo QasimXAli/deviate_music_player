@@ -11,27 +11,27 @@ class SearchTab extends StatelessWidget {
   final List<Widget> artistList = [
     const ArtistCard(
         artistImage: 'artist1',
-        artistName: 'Urgent Siege',
+        artistName: 'The Weekend',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist2',
-        artistName: 'Urgent Siege',
+        artistName: 'Taylor Swift',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist3',
-        artistName: 'Urgent Siege',
+        artistName: 'The Chainsmokers',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist4',
-        artistName: 'Urgent Siege',
+        artistName: 'Charlie Puth',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist7',
-        artistName: 'Urgent Siege',
+        artistName: 'Alec Benjamin',
         albumName: 'Damned Anthem'),
     const ArtistCard(
         artistImage: 'artist6',
-        artistName: 'Urgent Siege',
+        artistName: 'Rihanna',
         albumName: 'Damned Anthem')
   ];
 
@@ -192,11 +192,12 @@ Widget searchBox() {
     searchButtonPosition: SearchButtonPosition.trailing,
     searchButtonIconColor: Colors.white,
     hintText: 'Search',
-    textPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+    textPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     hintStyle: TextStyle(
       color: Colors.grey[400],
     ),
     borderColor: DeviateTheme.primaryColor,
+    
     borderRadius: const BorderRadius.all(
       Radius.circular(30),
     ),
