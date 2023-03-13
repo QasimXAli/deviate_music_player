@@ -1,11 +1,12 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:deviate_music_player/models/duration_model.dart';
+import 'package:deviate_music_player/services/audio_player_service.dart';
 import 'package:deviate_music_player/utils/my_app_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'dart:math' as math;
-
+import 'package:deviate_music_player/widgets/animated_artist_circle.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+
+import 'package:flutter/material.dart';
 
 class NowPlaying extends StatefulWidget {
   const NowPlaying({super.key});
@@ -22,6 +23,17 @@ class _NowPlayingState extends State<NowPlaying>
       milliseconds: 3000,
     ),
   )..repeat();
+
+  final _audioPlayerService = AudioPlayerService();
+
+  bool isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.stop();
+    _audioPlayerService.init();
+  }
 
   @override
   void dispose() {
@@ -47,19 +59,6 @@ class _NowPlayingState extends State<NowPlaying>
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            // leading: Padding(
-            //   padding: const EdgeInsets.all(10.0),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(50),
-            //         color: DeviateTheme.scaffoldBackgroundColor),
-            //     child: IconButton(
-            //       padding: EdgeInsets.zero,
-            //       icon: const Icon(Icons.arrow_back_outlined),
-            //       onPressed: () {},
-            //     ),
-            //   ),
-            // ),
             actions: [
               IconButton(
                 onPressed: () {
@@ -79,27 +78,7 @@ class _NowPlayingState extends State<NowPlaying>
             padding: const EdgeInsets.only(top: 200),
             child: Column(
               children: [
-                AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    return Transform.rotate(
-                      angle: _controller.value * 2 * math.pi,
-                      child: child,
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: DeviateTheme.primaryColor,
-                        width: 10,
-                      ),
-                    ),
-                    child: Image(
-                      image: DeviateTheme.images['playerArtist']!,
-                    ),
-                  ),
-                ),
+                AnimatedArtistCircle(controller: _controller),
                 const SizedBox(
                   height: 40,
                 ),
@@ -119,24 +98,39 @@ class _NowPlayingState extends State<NowPlaying>
                 const Spacer(),
                 Column(
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: ProgressBar(
-                        barHeight: 4.0,
-                        thumbColor: DeviateTheme.primaryColor,
-                        thumbRadius: 8.0,
-                        baseBarColor: Colors.grey,
-                        timeLabelTextStyle:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: Colors.grey.withOpacity(0.8),
-                                ),
-                        progressBarColor: DeviateTheme.primaryColor,
-                        progress: const Duration(milliseconds: 1000),
-                        buffered: const Duration(milliseconds: 2000),
-                        total: const Duration(milliseconds: 5000),
-                        onSeek: (duration) {},
-                      ),
-                    ),
+                    StreamBuilder<DurationState>(
+                        stream: _audioPlayerService.durationState,
+                        builder: (context, snapshot) {
+                          final durationState = snapshot.data;
+                          final progress =
+                              durationState?.progress ?? Duration.zero;
+                          final buffered =
+                              durationState?.buffered ?? Duration.zero;
+                          final total = durationState?.total ?? Duration.zero;
+
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: ProgressBar(
+                              barHeight: 4.0,
+                              thumbColor: DeviateTheme.primaryColor,
+                              thumbRadius: 8.0,
+                              baseBarColor: Colors.grey,
+                              timeLabelTextStyle: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    color: Colors.grey.withOpacity(0.8),
+                                  ),
+                              progressBarColor: DeviateTheme.primaryColor,
+                              progress: progress,
+                              buffered: buffered,
+                              total: total,
+                              onSeek: (duration) {
+                                _audioPlayerService.audioPlayer.seek(duration);
+                              },
+                            ),
+                          );
+                        }),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Row(
@@ -154,39 +148,28 @@ class _NowPlayingState extends State<NowPlaying>
                               image: DeviateTheme.icons['back']!,
                             ),
                           ),
-                          isEnabled
-                              ? IconButton(
-                                  iconSize: 70,
-                                  onPressed: () {
-                                    setState(() {
-                                      isEnabled = !isEnabled;
-                                      _controller.repeat();
-                                    });
-                                  },
-                                  icon: const FaIcon(
-                                    FontAwesomeIcons.solidCirclePlay,
-                                    color: DeviateTheme.primaryColor,
-                                  ),
-                                )
-                              : IconButton(
-                                  iconSize: 70,
-                                  onPressed: () {
-                                    setState(() {
-                                      isEnabled = !isEnabled;
-                                      _controller.reset();
-                                    });
-                                  },
-                                  icon: const FaIcon(
-                                    FontAwesomeIcons.solidCirclePause,
-                                    color: DeviateTheme.primaryColor,
-                                  ),
-                                  // icon: SvgPicture.asset(
-                                  //   'images/icons/play.svg',
-                                  // ),
-                                  // icon: Image(
-                                  //   image: DeviateTheme.icons['play']!,
-                                  // ),
-                                ),
+                          IconButton(
+                            iconSize: 70,
+                            onPressed: () {
+                              setState(() {
+                                if (_audioPlayerService.audioPlayer.playing) {
+                                  _audioPlayerService.audioPlayer.pause();
+                                  isPlaying = false;
+                                  _controller.stop();
+                                } else {
+                                  _audioPlayerService.audioPlayer.play();
+                                  isPlaying = true;
+                                  _controller.repeat();
+                                }
+                              });
+                            },
+                            icon: FaIcon(
+                              isPlaying
+                                  ? FontAwesomeIcons.solidCirclePause
+                                  : FontAwesomeIcons.solidCirclePlay,
+                              color: DeviateTheme.primaryColor,
+                            ),
+                          ),
                           IconButton(
                             onPressed: () {},
                             icon: Image(
@@ -194,11 +177,12 @@ class _NowPlayingState extends State<NowPlaying>
                             ),
                           ),
                           IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.more_horiz,
-                                color: DeviateTheme.primaryColor,
-                              )),
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.more_horiz,
+                              color: DeviateTheme.primaryColor,
+                            ),
+                          ),
                         ],
                       ),
                     )
